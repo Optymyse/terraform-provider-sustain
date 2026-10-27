@@ -118,3 +118,8 @@ protocol 6.0), and signs the sums with Optymyse's GPG key, an RSA one, as the Re
 GitHub release ([`.goreleaser.yml`](.goreleaser.yml)). The Registry takes each release from there, and none is changed
 once it's out. Its version says what it holds: `v0.x` while Sustain's API isn't versioned by its own policy, `v1.0.0`
 once it is.
+
+## Licence
+
+The Mozilla Public License 2.0 ([`LICENSE`](LICENSE)), as HashiCorp's own providers and most others are: anyone may use
+it, and whoever changes its files and shares the result shares those changes too.
