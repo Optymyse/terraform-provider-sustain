@@ -1,0 +1,696 @@
+{
+  "Assertion": {
+    "property": "type",
+    "shapes": [
+      {
+        "allows": {
+          "type": [
+            "keyword"
+          ],
+          "condition": [
+            "present",
+            "absent"
+          ]
+        },
+        "required": [
+          "id",
+          "condition",
+          "value"
+        ],
+        "nulls": [],
+        "takes": [
+          "id",
+          "value"
+        ]
+      },
+      {
+        "allows": {
+          "type": [
+            "regex"
+          ],
+          "condition": [
+            "present",
+            "absent"
+          ]
+        },
+        "required": [
+          "id",
+          "condition",
+          "engine",
+          "pattern"
+        ],
+        "nulls": [],
+        "takes": [
+          "id",
+          "engine",
+          "pattern"
+        ]
+      },
+      {
+        "allows": {
+          "type": [
+            "json_path"
+          ],
+          "condition": [
+            "exists",
+            "not_exists"
+          ]
+        },
+        "required": [
+          "id",
+          "path",
+          "condition"
+        ],
+        "nulls": [],
+        "takes": [
+          "id",
+          "path"
+        ]
+      },
+      {
+        "allows": {
+          "type": [
+            "json_path"
+          ],
+          "condition": [
+            "equals"
+          ]
+        },
+        "required": [
+          "id",
+          "path",
+          "condition",
+          "expected"
+        ],
+        "nulls": [],
+        "takes": [
+          "id",
+          "path",
+          "expected"
+        ]
+      },
+      {
+        "allows": {
+          "type": [
+            "header"
+          ],
+          "condition": [
+            "present",
+            "absent"
+          ]
+        },
+        "required": [
+          "id",
+          "name",
+          "condition"
+        ],
+        "nulls": [],
+        "takes": [
+          "id",
+          "name"
+        ]
+      },
+      {
+        "allows": {
+          "type": [
+            "header"
+          ],
+          "condition": [
+            "equals"
+          ]
+        },
+        "required": [
+          "id",
+          "name",
+          "condition",
+          "expected"
+        ],
+        "nulls": [],
+        "takes": [
+          "id",
+          "name",
+          "expected"
+        ]
+      }
+    ]
+  },
+  "Authentication": {
+    "property": "type",
+    "shapes": [
+      {
+        "allows": {
+          "type": [
+            "none"
+          ]
+        },
+        "required": [],
+        "nulls": [],
+        "takes": []
+      },
+      {
+        "allows": {
+          "type": [
+            "basic"
+          ]
+        },
+        "required": [
+          "secret_reference"
+        ],
+        "nulls": [],
+        "takes": [
+          "secret_reference"
+        ]
+      },
+      {
+        "allows": {
+          "type": [
+            "bearer"
+          ]
+        },
+        "required": [
+          "secret_reference"
+        ],
+        "nulls": [],
+        "takes": [
+          "secret_reference"
+        ]
+      },
+      {
+        "allows": {
+          "type": [
+            "api_key"
+          ]
+        },
+        "required": [
+          "placement",
+          "name",
+          "secret_reference"
+        ],
+        "nulls": [],
+        "takes": [
+          "placement",
+          "name",
+          "secret_reference"
+        ]
+      }
+    ]
+  },
+  "BrowserExpected": {
+    "property": "match",
+    "shapes": [
+      {
+        "allows": {
+          "match": [
+            "equals",
+            "contains"
+          ]
+        },
+        "required": [
+          "text"
+        ],
+        "nulls": [],
+        "takes": [
+          "text"
+        ]
+      },
+      {
+        "allows": {
+          "match": [
+            "pattern"
+          ]
+        },
+        "required": [
+          "pattern"
+        ],
+        "nulls": [],
+        "takes": [
+          "pattern"
+        ]
+      }
+    ]
+  },
+  "BrowserStep": {
+    "property": "action",
+    "shapes": [
+      {
+        "allows": {
+          "action": [
+            "goto"
+          ]
+        },
+        "required": [
+          "url"
+        ],
+        "nulls": [],
+        "takes": [
+          "url"
+        ]
+      },
+      {
+        "allows": {
+          "action": [
+            "click",
+            "check",
+            "uncheck",
+            "hover"
+          ]
+        },
+        "required": [
+          "target"
+        ],
+        "nulls": [],
+        "takes": [
+          "target"
+        ]
+      },
+      {
+        "allows": {
+          "action": [
+            "fill",
+            "select"
+          ]
+        },
+        "required": [
+          "target",
+          "value"
+        ],
+        "nulls": [],
+        "takes": [
+          "target",
+          "value"
+        ]
+      },
+      {
+        "allows": {
+          "action": [
+            "press"
+          ]
+        },
+        "required": [
+          "target",
+          "key"
+        ],
+        "nulls": [],
+        "takes": [
+          "target",
+          "key"
+        ]
+      },
+      {
+        "allows": {
+          "action": [
+            "wait_for"
+          ],
+          "state": [
+            "visible",
+            "hidden",
+            "attached",
+            "detached"
+          ]
+        },
+        "required": [
+          "target",
+          "state"
+        ],
+        "nulls": [],
+        "takes": [
+          "target"
+        ]
+      },
+      {
+        "allows": {
+          "action": [
+            "wait_for_load"
+          ],
+          "state": [
+            "load",
+            "domcontentloaded",
+            "networkidle"
+          ]
+        },
+        "required": [
+          "state"
+        ],
+        "nulls": [],
+        "takes": []
+      },
+      {
+        "allows": {
+          "action": [
+            "wait"
+          ]
+        },
+        "required": [
+          "ms"
+        ],
+        "nulls": [],
+        "takes": [
+          "ms"
+        ]
+      },
+      {
+        "allows": {
+          "action": [
+            "expect"
+          ]
+        },
+        "required": [
+          "target",
+          "check",
+          "negated"
+        ],
+        "nulls": [
+          "expected",
+          "count"
+        ],
+        "takes": [
+          "target",
+          "check",
+          "expected",
+          "count",
+          "negated"
+        ]
+      },
+      {
+        "allows": {
+          "action": [
+            "expect_page"
+          ]
+        },
+        "required": [
+          "property",
+          "expected",
+          "negated"
+        ],
+        "nulls": [],
+        "takes": [
+          "property",
+          "expected",
+          "negated"
+        ]
+      }
+    ]
+  },
+  "BrowserTarget": {
+    "property": "by",
+    "shapes": [
+      {
+        "allows": {
+          "by": [
+            "css"
+          ]
+        },
+        "required": [
+          "selector"
+        ],
+        "nulls": [
+          "nth"
+        ],
+        "takes": [
+          "selector",
+          "nth"
+        ]
+      },
+      {
+        "allows": {
+          "by": [
+            "role"
+          ]
+        },
+        "required": [
+          "role",
+          "exact"
+        ],
+        "nulls": [
+          "name",
+          "nth"
+        ],
+        "takes": [
+          "role",
+          "name",
+          "exact",
+          "nth"
+        ]
+      },
+      {
+        "allows": {
+          "by": [
+            "text",
+            "label",
+            "placeholder",
+            "alt_text",
+            "title"
+          ]
+        },
+        "required": [
+          "text",
+          "exact"
+        ],
+        "nulls": [
+          "nth"
+        ],
+        "takes": [
+          "text",
+          "exact",
+          "nth"
+        ]
+      },
+      {
+        "allows": {
+          "by": [
+            "test_id"
+          ]
+        },
+        "required": [
+          "id"
+        ],
+        "nulls": [
+          "nth"
+        ],
+        "takes": [
+          "id",
+          "nth"
+        ]
+      }
+    ]
+  },
+  "ConfigValue": {
+    "property": "source",
+    "shapes": [
+      {
+        "allows": {
+          "source": [
+            "literal"
+          ]
+        },
+        "required": [
+          "value"
+        ],
+        "nulls": [],
+        "takes": [
+          "value"
+        ]
+      },
+      {
+        "allows": {
+          "source": [
+            "secret_reference"
+          ]
+        },
+        "required": [
+          "secret_reference"
+        ],
+        "nulls": [],
+        "takes": [
+          "secret_reference"
+        ]
+      }
+    ]
+  },
+  "ExpectedStatus": {
+    "property": "mode",
+    "shapes": [
+      {
+        "allows": {
+          "mode": [
+            "class"
+          ]
+        },
+        "required": [
+          "status_class"
+        ],
+        "nulls": [],
+        "takes": [
+          "status_class"
+        ]
+      },
+      {
+        "allows": {
+          "mode": [
+            "set"
+          ]
+        },
+        "required": [
+          "status_codes"
+        ],
+        "nulls": [],
+        "takes": [
+          "status_codes"
+        ]
+      },
+      {
+        "allows": {
+          "mode": [
+            "range"
+          ]
+        },
+        "required": [
+          "min_status_code",
+          "max_status_code"
+        ],
+        "nulls": [],
+        "takes": [
+          "min_status_code",
+          "max_status_code"
+        ]
+      }
+    ]
+  },
+  "OnCallNow": {
+    "property": "state",
+    "shapes": [
+      {
+        "allows": {
+          "state": [
+            "on_call"
+          ]
+        },
+        "required": [
+          "user_id"
+        ],
+        "nulls": [
+          "override_id",
+          "until"
+        ],
+        "takes": [
+          "user_id",
+          "override_id",
+          "until"
+        ]
+      },
+      {
+        "allows": {
+          "state": [
+            "off"
+          ]
+        },
+        "required": [],
+        "nulls": [
+          "until"
+        ],
+        "takes": [
+          "until"
+        ]
+      },
+      {
+        "allows": {
+          "state": [
+            "unstarted"
+          ]
+        },
+        "required": [],
+        "nulls": [
+          "until"
+        ],
+        "takes": [
+          "until"
+        ]
+      },
+      {
+        "allows": {
+          "state": [
+            "nobody"
+          ]
+        },
+        "required": [],
+        "nulls": [],
+        "takes": []
+      }
+    ]
+  },
+  "RequestBody": {
+    "property": "kind",
+    "shapes": [
+      {
+        "allows": {
+          "kind": [
+            "none"
+          ]
+        },
+        "required": [],
+        "nulls": [],
+        "takes": []
+      },
+      {
+        "allows": {
+          "kind": [
+            "text"
+          ]
+        },
+        "required": [
+          "content_type",
+          "content"
+        ],
+        "nulls": [],
+        "takes": [
+          "content_type",
+          "content"
+        ]
+      },
+      {
+        "allows": {
+          "kind": [
+            "json"
+          ]
+        },
+        "required": [
+          "content"
+        ],
+        "nulls": [],
+        "takes": [
+          "content"
+        ]
+      },
+      {
+        "allows": {
+          "kind": [
+            "form"
+          ]
+        },
+        "required": [
+          "fields"
+        ],
+        "nulls": [],
+        "takes": [
+          "fields"
+        ]
+      },
+      {
+        "allows": {
+          "kind": [
+            "binary_reference"
+          ]
+        },
+        "required": [
+          "content_type",
+          "object_reference"
+        ],
+        "nulls": [],
+        "takes": [
+          "content_type",
+          "object_reference"
+        ]
+      }
+    ]
+  }
+}

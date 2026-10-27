@@ -1,0 +1,5593 @@
+{
+	"provider": {
+		"name": "sustain"
+	},
+	"resources": [
+		{
+			"name": "alert_channel",
+			"schema": {
+				"attributes": [
+					{
+						"name": "chat_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "A Telegram chat's id, or a public channel's @name.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtMost(40)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "events",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "A webhook's: the events besides alerts it's sent too, incidents', maintenance's and monitors'; none for any other.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(3)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "key",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "PagerDuty's or Opsgenie's integration key, or a Telegram bot's token.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtMost(200)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "kind",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "A kind of alert channel: a webhook; a Slack, Discord or Teams channel; a PagerDuty service; an Opsgenie team; or a Telegram chat.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"webhook\",\n\"slack\",\n\"discord\",\n\"teams\",\n\"pagerduty\",\n\"opsgenie\",\n\"telegram\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 60)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "region",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "PagerDuty's or Opsgenie's account's region; us unless given.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"us\",\n\"eu\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "url",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "A webhook's, Slack's, Discord's or Teams's address.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtMost(2048)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "host",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					},
+					{
+						"name": "signing_secret",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "What a webhook's deliveries are signed with; only a webhook has one."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "alert_contact",
+			"schema": {
+				"attributes": [
+					{
+						"name": "email",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "user_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "For one of the workspace's people, their account, whose address it is; null for any other address.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "regexp"
+											},
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.RegexMatches(regexp.MustCompile(\"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$\"), \"\")"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "weekly_report",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether they get the weekly report, once confirmed: on unless they or an Admin turned it off."
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "alert_policy",
+			"schema": {
+				"attributes": [
+					{
+						"name": "channel_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The channels it alerts, or null for every one.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(10)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "client_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The clients it applies to, their services and monitors no policy lists, in the same way.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(500)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "client_recipient_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "Enterprise's: a client's own people it alerts, each confirmed by email first, by Sustain's ids for them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(50)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "contact_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The alert contacts it alerts, or null for every one.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(50)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "critical_only_out_of_hours",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "A rule, Enterprise's: out of a client's support hours, only its critical services page; the rest go to its chat and webhook channels and its contacts alone."
+						}
+					},
+					{
+						"name": "delay_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "How long a monitor must stay down before anyone is alerted.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(0, 3600)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "escalation",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "after_seconds",
+										"int64": {
+											"computed_optional_required": "required",
+											"description": "How long after the step before.",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+															}
+														],
+														"schema_definition": "int64validator.Between(60, 86400)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "channel_ids",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.SizeAtMost(10)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "contact_ids",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.SizeAtMost(50)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "even_if_acknowledged",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "Whether it goes even once someone has taken the incident: to tell someone, rather than to wake them."
+										}
+									},
+									{
+										"name": "schedule_ids",
+										"list": {
+											"computed_optional_required": "computed_optional",
+											"element_type": {
+												"string": {}
+											},
+											"description": "The on-call schedules whose person on call it alerts.",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+															}
+														],
+														"schema_definition": "listvalidator.SizeAtMost(10)"
+													}
+												}
+											]
+										}
+									}
+								]
+							},
+							"description": "Its later steps, in order.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(4)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "in_hours_channel_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The channels it tells instead in a client's support hours.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(20)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "in_hours_client_recipient_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "A client's own people it tells instead in a client's support hours.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(20)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "in_hours_contact_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "A rule, Enterprise's: the alert contacts it tells instead, paging no one, in a client's support hours; none for no such rule.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(20)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "monitor_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The monitors it applies to, taken from any other policy; none for the default, which has the rest.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(1000)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 60)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "notify_recovery",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether recoveries are sent, or left out."
+						}
+					},
+					{
+						"name": "page_major_only",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "A rule, Enterprise's: only a major outage pages; a partial outage or a degradation goes to its chat and webhook channels and its contacts alone."
+						}
+					},
+					{
+						"name": "remind_limit",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "How many reminders at most, or null for every one until someone takes it or it recovers.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "remind_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "How often to remind while it stays down; null for never.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(300, 86400)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "schedule_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The on-call schedules whose person on call it alerts too.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(10)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "service_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The services it applies to, and their monitors no policy lists, in the same way.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					},
+					{
+						"name": "is_default",
+						"bool": {
+							"computed_optional_required": "computed",
+							"description": "The default has every monitor and service no other policy lists, and can't be deleted."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "browser_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "script",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "Its code, as Playwright's own calls a line at a time, which Sustain reads into its steps (docs/BROWSER_CHECKS.md, \"Code\")."
+									}
+								},
+								{
+									"name": "steps",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "action",
+													"string": {
+														"computed_optional_required": "required",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"goto\",\n\"click\",\n\"check\",\n\"uncheck\",\n\"hover\",\n\"fill\",\n\"select\",\n\"press\",\n\"wait_for\",\n\"wait_for_load\",\n\"wait\",\n\"expect\",\n\"expect_page\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "check",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"visible\",\n\"hidden\",\n\"enabled\",\n\"disabled\",\n\"checked\",\n\"text\",\n\"value\",\n\"count\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "count",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"description": "For count, how many; null for the rest.",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(0, 9007199254740991)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "expected",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "match",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"equals\",\n\"contains\",\n\"pattern\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "pattern",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "text",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "What an assertion expects of a text: to equal it, after spaces are made single; to hold it; or a pattern RE2 reads."
+													}
+												},
+												{
+													"name": "key",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "As Playwright names a key, such as Enter."
+													}
+												},
+												{
+													"name": "ms",
+													"int64": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																		}
+																	],
+																	"schema_definition": "int64validator.Between(1, 10000)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "negated",
+													"bool": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "property",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"url\",\n\"title\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "state",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"visible\",\n\"hidden\",\n\"attached\",\n\"detached\",\n\"load\",\n\"domcontentloaded\",\n\"networkidle\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "target",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "by",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"css\",\n\"role\",\n\"text\",\n\"label\",\n\"placeholder\",\n\"alt_text\",\n\"title\",\n\"test_id\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "exact",
+																"bool": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "id",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "name",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "Its accessible name, or null for any."
+																}
+															},
+															{
+																"name": "nth",
+																"int64": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "Of several it finds, which, from 0, or -1 for the last; null when it finds one alone.",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																					}
+																				],
+																				"schema_definition": "int64validator.Between(-1, 999)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "role",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"alert\",\n\"alertdialog\",\n\"application\",\n\"article\",\n\"banner\",\n\"blockquote\",\n\"button\",\n\"caption\",\n\"cell\",\n\"checkbox\",\n\"code\",\n\"columnheader\",\n\"combobox\",\n\"complementary\",\n\"contentinfo\",\n\"definition\",\n\"deletion\",\n\"dialog\",\n\"directory\",\n\"document\",\n\"emphasis\",\n\"feed\",\n\"figure\",\n\"form\",\n\"generic\",\n\"grid\",\n\"gridcell\",\n\"group\",\n\"heading\",\n\"img\",\n\"insertion\",\n\"link\",\n\"list\",\n\"listbox\",\n\"listitem\",\n\"log\",\n\"main\",\n\"marquee\",\n\"math\",\n\"meter\",\n\"menu\",\n\"menubar\",\n\"menuitem\",\n\"menuitemcheckbox\",\n\"menuitemradio\",\n\"navigation\",\n\"none\",\n\"note\",\n\"option\",\n\"paragraph\",\n\"presentation\",\n\"progressbar\",\n\"radio\",\n\"radiogroup\",\n\"region\",\n\"row\",\n\"rowgroup\",\n\"rowheader\",\n\"scrollbar\",\n\"search\",\n\"searchbox\",\n\"separator\",\n\"slider\",\n\"spinbutton\",\n\"status\",\n\"strong\",\n\"subscript\",\n\"superscript\",\n\"switch\",\n\"tab\",\n\"table\",\n\"tablist\",\n\"tabpanel\",\n\"term\",\n\"textbox\",\n\"time\",\n\"timer\",\n\"toolbar\",\n\"tooltip\",\n\"tree\",\n\"treegrid\",\n\"treeitem\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "selector",
+																"string": {
+																	"computed_optional_required": "computed_optional",
+																	"description": "As page.locator takes one."
+																}
+															},
+															{
+																"name": "text",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "How a step finds what it acts on, as Playwright's locators find it: by a selector, its role and name, its text, label, placeholder, alternative text or title, or its test id."
+													}
+												},
+												{
+													"name": "url",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"description": "A public address, at HTTP or HTTPS's own port."
+													}
+												},
+												{
+													"name": "value",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "secret_reference",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "source",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "value",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+													}
+												}
+											]
+										},
+										"description": "Its steps, as the guided flow makes them; or its script."
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "client",
+			"schema": {
+				"attributes": [
+					{
+						"name": "company",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "display_name",
+									"string": {
+										"computed_optional_required": "required",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthBetween(1, 240)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "domain",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthBetween(1, 253)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "website",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthBetween(1, 2048)"
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "company_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its company at Link, by Link's id; null once Link erased it.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "regexp"
+											},
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.RegexMatches(regexp.MustCompile(\"^cmp_[a-f0-9]{32}$\"), \"\")"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "contract",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "hours",
+									"single_nested": {
+										"computed_optional_required": "required",
+										"attributes": [
+											{
+												"name": "days",
+												"list": {
+													"computed_optional_required": "required",
+													"element_type": {
+														"string": {}
+													},
+													"description": "In the week's order, once each.",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+																	}
+																],
+																"schema_definition": "listvalidator.SizeAtMost(7)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "end_time",
+												"string": {
+													"computed_optional_required": "required",
+													"description": "When they end, after they begin, on the same day: \"24:00\" at the latest.",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.LengthAtMost(5)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "start_time",
+												"string": {
+													"computed_optional_required": "required",
+													"description": "When they begin, as \"09:00\".",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.LengthAtMost(5)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "time_zone",
+												"string": {
+													"computed_optional_required": "required",
+													"description": "The IANA time zone whose clocks they keep, as Europe/London.",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.LengthAtMost(64)"
+															}
+														}
+													]
+												}
+											}
+										],
+										"description": "A client's support hours: on these days, from and to these times of day, by a time zone's clocks, within the day."
+									}
+								},
+								{
+									"name": "maintenance",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "Whether maintenance is left out of its time, or counted as downtime.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"excluded\",\n\"downtime\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "target_percent",
+									"number": {
+										"computed_optional_required": "required",
+										"description": "The availability it promises, a percentage above 0 and up to 100, such as 99.9; null for none."
+									}
+								}
+							],
+							"description": "A client's contract, or a service's own: what its availability is held to in its reports, and how it's reckoned."
+						}
+					},
+					{
+						"name": "support_hours",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "days",
+									"list": {
+										"computed_optional_required": "required",
+										"element_type": {
+											"string": {}
+										},
+										"description": "In the week's order, once each.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.SizeAtMost(7)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "end_time",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "When they end, after they begin, on the same day: \"24:00\" at the latest.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthAtMost(5)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "start_time",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "When they begin, as \"09:00\".",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthAtMost(5)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "time_zone",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "The IANA time zone whose clocks they keep, as Europe/London.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.LengthAtMost(64)"
+												}
+											}
+										]
+									}
+								}
+							],
+							"description": "A client's support hours: on these days, from and to these times of day, by a time zone's clocks, within the day."
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "dns_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "dnssec",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "False unless given. True, an answer the public resolvers don't validate with DNSSEC fails: needs the public resolvers."
+									}
+								},
+								{
+									"name": "domain",
+									"string": {
+										"computed_optional_required": "required"
+									}
+								},
+								{
+									"name": "expected_values",
+									"list": {
+										"computed_optional_required": "computed_optional",
+										"element_type": {
+											"string": {}
+										}
+									}
+								},
+								{
+									"name": "match",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"contains\",\n\"equals\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "record_type",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"A\",\n\"AAAA\",\n\"CNAME\",\n\"MX\",\n\"NS\",\n\"TXT\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "resolver",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "public, Cloudflare's then Google's resolvers, unless given; or authoritative, the name's own name servers.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"authoritative\",\n)"
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "grpc_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "certificate_change_alert",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether its alert policy is told of an unexpected change of its certificate: another issuer, one that expires no later, or one replaced before half its life. False unless given."
+						}
+					},
+					{
+						"name": "certificate_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "certificate_verification",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "Whether its certificate must be trusted; skipped, one that isn't trusted, is self-signed, has expired or doesn't match its name doesn't fail it, and its expiry is still watched.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"required\",\n\"skipped\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "host",
+									"string": {
+										"computed_optional_required": "required"
+									}
+								},
+								{
+									"name": "port",
+									"int64": {
+										"computed_optional_required": "required",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "service",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "The service whose health it asks, as shop.Checkout: at most 200 characters of printable ASCII, without spaces. Empty for the server's own health."
+									}
+								},
+								{
+									"name": "tls",
+									"bool": {
+										"computed_optional_required": "computed_optional",
+										"description": "Whether it speaks TLS, agreeing HTTP/2 by ALPN: true unless given."
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "heartbeat_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "grace_seconds",
+						"int64": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "max_run_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "min_run_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whole minutes in seconds, from 60, shorter than the longest run and the period: a run the job said it started that ends sooner fails. Null for none.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "period_seconds",
+						"int64": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "address",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The address the job calls: for a writer, on the monitor's own page."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "http_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "certificate_change_alert",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether its alert policy is told of an unexpected change of its certificate: another issuer, one that expires no later, or one replaced before half its life. False unless given."
+						}
+					},
+					{
+						"name": "certificate_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "assertions",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "condition",
+													"string": {
+														"computed_optional_required": "computed_optional",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"present\",\n\"absent\",\n\"exists\",\n\"not_exists\",\n\"equals\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "engine",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "expected",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "secret_reference",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "source",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "value",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+													}
+												},
+												{
+													"name": "id",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "name",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "path",
+													"string": {
+														"computed_optional_required": "computed_optional"
+													}
+												},
+												{
+													"name": "pattern",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "secret_reference",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "source",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "value",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+													}
+												},
+												{
+													"name": "type",
+													"string": {
+														"computed_optional_required": "required",
+														"validators": [
+															{
+																"custom": {
+																	"imports": [
+																		{
+																			"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																		}
+																	],
+																	"schema_definition": "stringvalidator.OneOf(\n\"keyword\",\n\"regex\",\n\"json_path\",\n\"header\",\n)"
+																}
+															}
+														]
+													}
+												},
+												{
+													"name": "value",
+													"single_nested": {
+														"computed_optional_required": "computed_optional",
+														"attributes": [
+															{
+																"name": "secret_reference",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "source",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "value",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "authentication",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "name",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "placement",
+												"string": {
+													"computed_optional_required": "computed_optional",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"header\",\n\"query\",\n)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "secret_reference",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "type",
+												"string": {
+													"computed_optional_required": "required",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"none\",\n\"basic\",\n\"bearer\",\n\"api_key\",\n)"
+															}
+														}
+													]
+												}
+											}
+										],
+										"description": "How a monitor's request signs in: never a secret's value, only its reference."
+									}
+								},
+								{
+									"name": "expected_status",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "max_status_code",
+												"int64": {
+													"computed_optional_required": "computed_optional",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																	}
+																],
+																"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "min_status_code",
+												"int64": {
+													"computed_optional_required": "computed_optional",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																	}
+																],
+																"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "mode",
+												"string": {
+													"computed_optional_required": "required",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"class\",\n\"set\",\n\"range\",\n)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "status_class",
+												"number": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "status_codes",
+												"list": {
+													"computed_optional_required": "computed_optional",
+													"element_type": {
+														"int64": {}
+													}
+												}
+											}
+										],
+										"description": "The status codes a response may have: a class, a set, or a range."
+									}
+								},
+								{
+									"name": "failure_excerpt_bytes",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "headers",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "name",
+													"string": {
+														"computed_optional_required": "required"
+													}
+												},
+												{
+													"name": "value",
+													"single_nested": {
+														"computed_optional_required": "required",
+														"attributes": [
+															{
+																"name": "secret_reference",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "source",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "value",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "ip_version_preference",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"automatic\",\n\"ipv4\",\n\"ipv6\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "max_inspected_body_bytes",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "method",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"GET\",\n\"HEAD\",\n\"POST\",\n\"PUT\",\n\"PATCH\",\n\"DELETE\",\n\"OPTIONS\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "query_parameters",
+									"list_nested": {
+										"computed_optional_required": "computed_optional",
+										"nested_object": {
+											"attributes": [
+												{
+													"name": "name",
+													"string": {
+														"computed_optional_required": "required"
+													}
+												},
+												{
+													"name": "value",
+													"single_nested": {
+														"computed_optional_required": "required",
+														"attributes": [
+															{
+																"name": "secret_reference",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															},
+															{
+																"name": "source",
+																"string": {
+																	"computed_optional_required": "required",
+																	"validators": [
+																		{
+																			"custom": {
+																				"imports": [
+																					{
+																						"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																					}
+																				],
+																				"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																			}
+																		}
+																	]
+																}
+															},
+															{
+																"name": "value",
+																"string": {
+																	"computed_optional_required": "computed_optional"
+																}
+															}
+														],
+														"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+													}
+												}
+											]
+										}
+									}
+								},
+								{
+									"name": "redirect_policy",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "max_redirects",
+												"int64": {
+													"computed_optional_required": "required",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+																	}
+																],
+																"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "mode",
+												"string": {
+													"computed_optional_required": "required",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"error\",\n\"follow\",\n)"
+															}
+														}
+													]
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "request_body",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "content",
+												"single_nested": {
+													"computed_optional_required": "computed_optional",
+													"attributes": [
+														{
+															"name": "secret_reference",
+															"string": {
+																"computed_optional_required": "computed_optional"
+															}
+														},
+														{
+															"name": "source",
+															"string": {
+																"computed_optional_required": "required",
+																"validators": [
+																	{
+																		"custom": {
+																			"imports": [
+																				{
+																					"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																				}
+																			],
+																			"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																		}
+																	}
+																]
+															}
+														},
+														{
+															"name": "value",
+															"string": {
+																"computed_optional_required": "computed_optional"
+															}
+														}
+													],
+													"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+												}
+											},
+											{
+												"name": "content_type",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											},
+											{
+												"name": "fields",
+												"list_nested": {
+													"computed_optional_required": "computed_optional",
+													"nested_object": {
+														"attributes": [
+															{
+																"name": "name",
+																"string": {
+																	"computed_optional_required": "required"
+																}
+															},
+															{
+																"name": "value",
+																"single_nested": {
+																	"computed_optional_required": "required",
+																	"attributes": [
+																		{
+																			"name": "secret_reference",
+																			"string": {
+																				"computed_optional_required": "computed_optional"
+																			}
+																		},
+																		{
+																			"name": "source",
+																			"string": {
+																				"computed_optional_required": "required",
+																				"validators": [
+																					{
+																						"custom": {
+																							"imports": [
+																								{
+																									"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																								}
+																							],
+																							"schema_definition": "stringvalidator.OneOf(\n\"literal\",\n\"secret_reference\",\n)"
+																						}
+																					}
+																				]
+																			}
+																		},
+																		{
+																			"name": "value",
+																			"string": {
+																				"computed_optional_required": "computed_optional"
+																			}
+																		}
+																	],
+																	"description": "A value a monitor's request is made with: as written, or a workspace secret's, by its id."
+																}
+															}
+														]
+													}
+												}
+											},
+											{
+												"name": "kind",
+												"string": {
+													"computed_optional_required": "required",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"none\",\n\"text\",\n\"json\",\n\"form\",\n\"binary_reference\",\n)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "object_reference",
+												"string": {
+													"computed_optional_required": "computed_optional"
+												}
+											}
+										],
+										"description": "What a monitor's request sends."
+									}
+								},
+								{
+									"name": "response_size_ceiling_bytes",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "response_time_threshold_ms",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "tls",
+									"single_nested": {
+										"computed_optional_required": "computed_optional",
+										"attributes": [
+											{
+												"name": "certificate_verification",
+												"string": {
+													"computed_optional_required": "required",
+													"description": "Whether its certificate must be trusted; skipped, one that isn't trusted, is self-signed, has expired or doesn't match its name doesn't fail it, and its expiry is still watched.",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.OneOf(\n\"required\",\n\"skipped\",\n)"
+															}
+														}
+													]
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "url",
+									"string": {
+										"computed_optional_required": "required"
+									}
+								},
+								{
+									"name": "user_agent",
+									"string": {
+										"computed_optional_required": "computed_optional"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "mail_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "certificate_change_alert",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether its alert policy is told of an unexpected change of its certificate: another issuer, one that expires no later, or one replaced before half its life. False unless given."
+						}
+					},
+					{
+						"name": "certificate_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "certificate_verification",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "Whether its certificate must be trusted; skipped, one that isn't trusted, is self-signed, has expired or doesn't match its name doesn't fail it, and its expiry is still watched.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"required\",\n\"skipped\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "host",
+									"string": {
+										"computed_optional_required": "required"
+									}
+								},
+								{
+									"name": "port",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"description": "The port its protocol and security commonly use, unless given: SMTP's 587 with STARTTLS, 465 with TLS and 25 without; IMAP's 993 with TLS and 143 otherwise; POP3's 995 with TLS and 110 otherwise.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "protocol",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "What the server speaks: SMTP, IMAP or POP3.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"smtp\",\n\"imap\",\n\"pop3\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "security",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "How its session is secured: with TLS from the start, with STARTTLS once it has greeted, or not at all.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"tls\",\n\"starttls\",\n\"none\",\n)"
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "on_call_schedule",
+			"schema": {
+				"attributes": [
+					{
+						"name": "fallback_user_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The people it alerts when nobody's on call, with people: none otherwise.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(50)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "first_shift",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "When the first shift starts, in its time zone, such as 2026-10-12T09:00."
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 60)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "on_duty",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "days",
+									"list": {
+										"computed_optional_required": "required",
+										"element_type": {
+											"string": {}
+										},
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+														}
+													],
+													"schema_definition": "listvalidator.SizeBetween(1, 7)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "from",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "When it's on from, each day, as HH:MM."
+									}
+								},
+								{
+									"name": "until",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "When it's on until, each day, as HH:MM."
+									}
+								}
+							],
+							"description": "When an on-call schedule is on: the days its hours start, from one time of day until another, in its time zone."
+						}
+					},
+					{
+						"name": "shift_length",
+						"int64": {
+							"computed_optional_required": "required",
+							"description": "How many of `shift_unit` a shift lasts.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 31)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "shift_unit",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"hour\",\n\"day\",\n\"week\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "time_zone",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "An IANA time zone, such as Europe/London."
+						}
+					},
+					{
+						"name": "user_ids",
+						"list": {
+							"computed_optional_required": "required",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The rota: the workspace's people, by their ids, in turn.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(50)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "when_nobody",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whom it alerts when nobody's on call: wait, holding an alert while it is off until it is on again; contacts, every confirmed contact; or people, those it names. With nobody left on its rota, wait alerts every contact.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"wait\",\n\"contacts\",\n\"people\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "ping_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "fail_when",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"none_answered\",\n\"three_unanswered\",\n\"any_unanswered\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "host",
+									"string": {
+										"computed_optional_required": "required"
+									}
+								},
+								{
+									"name": "ip_version_preference",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"automatic\",\n\"ipv4\",\n\"ipv6\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "response_time_threshold_ms",
+									"int64": {
+										"computed_optional_required": "computed_optional",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "private_location",
+			"schema": {
+				"attributes": [
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 60)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					},
+					{
+						"name": "key",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "`sw_location_\u003cregion\u003e_`, the workspace's id as hex, `_` and 48 hex digits: its agent's `SUSTAIN_LOCATION_KEY`."
+						}
+					},
+					{
+						"name": "key_made_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "When its key was made: its agent asks with no other."
+						}
+					},
+					{
+						"name": "key_prefix",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "Enough of its key to tell it from another."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "repeating_maintenance",
+			"schema": {
+				"attributes": [
+					{
+						"name": "client_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The clients it covers, with the services each has as each time runs.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(500)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "days",
+						"list": {
+							"computed_optional_required": "required",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The days it starts on, Monday first: mon to sun.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtLeast(1)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "duration_minutes",
+						"int64": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 10080)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "message",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "What the status page says about each of its times.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtMost(2000)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "monitor_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The monitors it covers, or null for every one.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "service_ids",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The services it covers, with their monitors; none when it covers every monitor.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "start_time",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "When it starts on each, by its time zone's clocks: 02:00."
+						}
+					},
+					{
+						"name": "time_zone",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "An IANA time zone, as Europe/London.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 64)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "title",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 200)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "secret",
+			"schema": {
+				"attributes": [
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "value",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "What a monitor names it by: its `secret_reference`."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Rises each time it's given a new value."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "service",
+			"schema": {
+				"attributes": [
+					{
+						"name": "at_least",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "For `at_least`: how many of its monitors down make it down; null otherwise.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "client_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "The client it is (docs/CLIENTS.md); null for a shared service.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 128)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "contract",
+						"single_nested": {
+							"computed_optional_required": "computed_optional",
+							"attributes": [
+								{
+									"name": "hours",
+									"single_nested": {
+										"computed_optional_required": "required",
+										"attributes": [
+											{
+												"name": "days",
+												"list": {
+													"computed_optional_required": "required",
+													"element_type": {
+														"string": {}
+													},
+													"description": "In the week's order, once each.",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+																	}
+																],
+																"schema_definition": "listvalidator.SizeAtMost(7)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "end_time",
+												"string": {
+													"computed_optional_required": "required",
+													"description": "When they end, after they begin, on the same day: \"24:00\" at the latest.",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.LengthAtMost(5)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "start_time",
+												"string": {
+													"computed_optional_required": "required",
+													"description": "When they begin, as \"09:00\".",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.LengthAtMost(5)"
+															}
+														}
+													]
+												}
+											},
+											{
+												"name": "time_zone",
+												"string": {
+													"computed_optional_required": "required",
+													"description": "The IANA time zone whose clocks they keep, as Europe/London.",
+													"validators": [
+														{
+															"custom": {
+																"imports": [
+																	{
+																		"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+																	}
+																],
+																"schema_definition": "stringvalidator.LengthAtMost(64)"
+															}
+														}
+													]
+												}
+											}
+										],
+										"description": "A client's support hours: on these days, from and to these times of day, by a time zone's clocks, within the day."
+									}
+								},
+								{
+									"name": "maintenance",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "Whether maintenance is left out of its time, or counted as downtime.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"excluded\",\n\"downtime\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "target_percent",
+									"number": {
+										"computed_optional_required": "required",
+										"description": "The availability it promises, a percentage above 0 and up to 100, such as 99.9; null for none."
+									}
+								}
+							],
+							"description": "A client's contract, or a service's own: what its availability is held to in its reports, and how it's reckoned."
+						}
+					},
+					{
+						"name": "critical",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether it pages out of its client's support hours where a policy pages for critical services alone (docs/ALERT_ROUTING.md)."
+						}
+					},
+					{
+						"name": "depends_on",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The services it depends on, by id (docs/SERVICES.md).",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(20)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "description",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthAtMost(500)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "down_when",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Down when any of its monitors is, every one is, at least `at_least` are, or a critical one is.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"any\",\n\"every\",\n\"at_least\",\n\"critical\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "manual_status",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "The status set by hand; null for `automatic`.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"operational\",\n\"degraded\",\n\"partial_outage\",\n\"major_outage\",\n\"maintenance\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "monitors",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "critical",
+										"bool": {
+											"computed_optional_required": "computed_optional",
+											"description": "Whether the service is down whenever this monitor is, by the `critical` rule."
+										}
+									},
+									{
+										"name": "monitor_id",
+										"string": {
+											"computed_optional_required": "required",
+											"validators": [
+												{
+													"custom": {
+														"imports": [
+															{
+																"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+															}
+														],
+														"schema_definition": "stringvalidator.LengthBetween(1, 128)"
+													}
+												}
+											]
+										}
+									},
+									{
+										"name": "joined_at",
+										"string": {
+											"computed_optional_required": "computed",
+											"description": "An ISO 8601 time in UTC."
+										}
+									}
+								]
+							},
+							"description": "Its monitors now, in the order they joined.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "one_incident",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether, while it's down, its monitors' outages join its one incident and alert once."
+						}
+					},
+					{
+						"name": "show_monitors",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether its row on the status page opens to show its public monitors."
+						}
+					},
+					{
+						"name": "status_mode",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "How it's shown: by its monitors and what it depends on (automatic), as set by hand (manual), or as set unless those say worse (hybrid).",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"automatic\",\n\"manual\",\n\"hybrid\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "status_page",
+			"schema": {
+				"attributes": [
+					{
+						"name": "access",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Who may open it: anyone, or only those let in (docs/PRIVATE_PAGES.md).",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "client_contacts",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a client's page lets in its client's contacts at Link, by an emailed link."
+						}
+					},
+					{
+						"name": "client_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": ""
+							},
+							"description": "The client whose page it is, showing its public services as they come and go; null for any other.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 128)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "colour",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its own colour, # and six lower-case hex digits, for its buttons, links and initial, shown darker in light and lighter in dark where it would be hard to read; null for Sustain's own.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "regexp"
+											},
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.RegexMatches(regexp.MustCompile(\"^#[0-9a-fA-F]{6}$\"), \"\")"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "description",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "A sentence or two beneath its name, 300 characters at most; null for none."
+						}
+					},
+					{
+						"name": "email_domains",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The email domains at which anyone may sign in to it by an emailed link.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
+											}
+										],
+										"schema_definition": "listvalidator.SizeAtMost(20)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "indexed",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether search engines may list it; a private page is never listed, whatever this says."
+						}
+					},
+					{
+						"name": "language",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "The language its own words are in; what the team writes is shown as written. English unless set.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"en\",\n\"de\",\n\"fr\",\n\"es\",\n\"nl\",\n\"it\",\n\"pt\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "Its title: the workspace's name for its own page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.LengthBetween(1, 100)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "password",
+						"string": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "shows",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"default": {
+								"static": "placed"
+							},
+							"description": "Every public service and monitor, placed or not, or only those placed on it.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"all_public\",\n\"placed\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "time_zone",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "The IANA time zone its times are shown in, as Europe/London; null for each reader's own."
+						}
+					},
+					{
+						"name": "created_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "An ISO 8601 time in UTC."
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed"
+						}
+					},
+					{
+						"name": "own",
+						"bool": {
+							"computed_optional_required": "computed",
+							"description": "Whether it is the workspace's own page, at the workspace's address and on any domain that names no page."
+						}
+					},
+					{
+						"name": "password_set",
+						"bool": {
+							"computed_optional_required": "computed",
+							"description": "Whether it has a password, never what it is."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "tcp_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "certificate_change_alert",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether its alert policy is told of an unexpected change of its certificate: another issuer, one that expires no later, or one replaced before half its life. False unless given."
+						}
+					},
+					{
+						"name": "certificate_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "certificate_verification",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "Whether its certificate must be trusted; skipped, one that isn't trusted, is self-signed, has expired or doesn't match its name doesn't fail it, and its expiry is still watched.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"required\",\n\"skipped\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "encoding",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "How send and expect are written: text, as UTF-8; or hex, two digits a byte.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"text\",\n\"hex\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "expect",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "What the server must say, first or in reply to what was sent, as its encoding writes it: at most 256 bytes, text with no control characters. Null connects alone."
+									}
+								},
+								{
+									"name": "host",
+									"string": {
+										"computed_optional_required": "required"
+									}
+								},
+								{
+									"name": "port",
+									"int64": {
+										"computed_optional_required": "required",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "send",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "What it sends once connected, and secured if it speaks TLS, as its encoding writes it: at most 512 bytes, text's only control characters tabs and line breaks. Null sends nothing. Nothing is sent to an SMTP port, and never SMTP's MAIL FROM or RCPT TO."
+									}
+								},
+								{
+									"name": "tls",
+									"bool": {
+										"computed_optional_required": "computed_optional"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "udp_monitor",
+			"schema": {
+				"attributes": [
+					{
+						"name": "check_areas",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							}
+						}
+					},
+					{
+						"name": "check_interval_seconds",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "config",
+						"single_nested": {
+							"computed_optional_required": "required",
+							"attributes": [
+								{
+									"name": "encoding",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "How send and expect are written: text, as UTF-8; or hex, two digits a byte.",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+														}
+													],
+													"schema_definition": "stringvalidator.OneOf(\n\"text\",\n\"hex\",\n)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "expect",
+									"string": {
+										"computed_optional_required": "computed_optional",
+										"description": "What the server must say, first or in reply to what was sent, as its encoding writes it: at most 256 bytes, text with no control characters. Null connects alone."
+									}
+								},
+								{
+									"name": "host",
+									"string": {
+										"computed_optional_required": "required"
+									}
+								},
+								{
+									"name": "port",
+									"int64": {
+										"computed_optional_required": "required",
+										"validators": [
+											{
+												"custom": {
+													"imports": [
+														{
+															"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+														}
+													],
+													"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "send",
+									"string": {
+										"computed_optional_required": "required",
+										"description": "What it sends, a datagram, as its encoding writes it: at most 512 bytes, text's only control characters tabs and line breaks. Required: a UDP server answers only what it's sent."
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "confirmed_by",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "What confirms a monitor's failed round: verification rounds, each about 15 seconds after the last, or its next scheduled rounds, with no check between them.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"verification_rounds\",\n\"scheduled_rounds\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "domain_expiry_alert_days",
+						"number": {
+							"computed_optional_required": "computed_optional",
+							"description": "Days before it expires that the alert policy is told, as an incident; null for none watched."
+						}
+					},
+					{
+						"name": "enabled",
+						"bool": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "failure_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "metadata",
+						"list_nested": {
+							"computed_optional_required": "computed_optional",
+							"nested_object": {
+								"attributes": [
+									{
+										"name": "key",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									},
+									{
+										"name": "value",
+										"string": {
+											"computed_optional_required": "required"
+										}
+									}
+								]
+							}
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required"
+						}
+					},
+					{
+						"name": "places_to_fail",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"description": "Its quorum: how many places failing together fail a round, or every place while fewer answer.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(1, 15)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "private_locations",
+						"list": {
+							"computed_optional_required": "computed_optional",
+							"element_type": {
+								"string": {}
+							},
+							"description": "The workspace's private locations it's checked from too, or alone with no `check_areas`, by id, ten at most: none unless given."
+						}
+					},
+					{
+						"name": "recovery_threshold",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "sla_target_percent",
+						"number": {
+							"computed_optional_required": "computed_optional"
+						}
+					},
+					{
+						"name": "status_page_visibility",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "Whether a monitor is shown on the status page.",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+											}
+										],
+										"schema_definition": "stringvalidator.OneOf(\n\"public\",\n\"private\",\n)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "timeout_ms",
+						"int64": {
+							"computed_optional_required": "computed_optional",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(-9007199254740991, 9007199254740991)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "The monitor's id."
+						}
+					},
+					{
+						"name": "version",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Its version, which a change must name, as its last read."
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

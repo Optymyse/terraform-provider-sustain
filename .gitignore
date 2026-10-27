@@ -1,0 +1,3 @@
+# What a build or a release leaves here (README.md, "Releasing").
+/terraform-provider-sustain
+/dist/

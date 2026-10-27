@@ -1,0 +1,252 @@
+# Written by tools/derive.mjs from tools/resources.mjs: each resource's schema, read by HashiCorp's OpenAPI generator
+# from api/provider.json's paths of its own (rule 5), its settings, then what the provider keeps of it.
+provider:
+  name: sustain
+resources:
+  http_monitor:
+    create:
+      path: /provider/http_monitor
+      method: POST
+    read:
+      path: /provider/http_monitor/{id}
+      method: GET
+    update:
+      path: /provider/http_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/http_monitor/{id}
+      method: DELETE
+  tcp_monitor:
+    create:
+      path: /provider/tcp_monitor
+      method: POST
+    read:
+      path: /provider/tcp_monitor/{id}
+      method: GET
+    update:
+      path: /provider/tcp_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/tcp_monitor/{id}
+      method: DELETE
+  udp_monitor:
+    create:
+      path: /provider/udp_monitor
+      method: POST
+    read:
+      path: /provider/udp_monitor/{id}
+      method: GET
+    update:
+      path: /provider/udp_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/udp_monitor/{id}
+      method: DELETE
+  dns_monitor:
+    create:
+      path: /provider/dns_monitor
+      method: POST
+    read:
+      path: /provider/dns_monitor/{id}
+      method: GET
+    update:
+      path: /provider/dns_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/dns_monitor/{id}
+      method: DELETE
+  ping_monitor:
+    create:
+      path: /provider/ping_monitor
+      method: POST
+    read:
+      path: /provider/ping_monitor/{id}
+      method: GET
+    update:
+      path: /provider/ping_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/ping_monitor/{id}
+      method: DELETE
+  mail_monitor:
+    create:
+      path: /provider/mail_monitor
+      method: POST
+    read:
+      path: /provider/mail_monitor/{id}
+      method: GET
+    update:
+      path: /provider/mail_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/mail_monitor/{id}
+      method: DELETE
+  grpc_monitor:
+    create:
+      path: /provider/grpc_monitor
+      method: POST
+    read:
+      path: /provider/grpc_monitor/{id}
+      method: GET
+    update:
+      path: /provider/grpc_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/grpc_monitor/{id}
+      method: DELETE
+  browser_monitor:
+    create:
+      path: /provider/browser_monitor
+      method: POST
+    read:
+      path: /provider/browser_monitor/{id}
+      method: GET
+    update:
+      path: /provider/browser_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/browser_monitor/{id}
+      method: DELETE
+  heartbeat_monitor:
+    create:
+      path: /provider/heartbeat_monitor
+      method: POST
+    read:
+      path: /provider/heartbeat_monitor/{id}
+      method: GET
+    update:
+      path: /provider/heartbeat_monitor/{id}
+      method: PATCH
+    delete:
+      path: /provider/heartbeat_monitor/{id}
+      method: DELETE
+  service:
+    create:
+      path: /provider/service
+      method: POST
+    read:
+      path: /provider/service/{id}
+      method: GET
+    update:
+      path: /provider/service/{id}
+      method: PATCH
+    delete:
+      path: /provider/service/{id}
+      method: DELETE
+  secret:
+    create:
+      path: /provider/secret
+      method: POST
+    read:
+      path: /provider/secret/{id}
+      method: GET
+    update:
+      path: /provider/secret/{id}
+      method: PATCH
+    delete:
+      path: /provider/secret/{id}
+      method: DELETE
+  client:
+    create:
+      path: /provider/client
+      method: POST
+    read:
+      path: /provider/client/{id}
+      method: GET
+    update:
+      path: /provider/client/{id}
+      method: PATCH
+    delete:
+      path: /provider/client/{id}
+      method: DELETE
+  alert_policy:
+    create:
+      path: /provider/alert_policy
+      method: POST
+    read:
+      path: /provider/alert_policy/{id}
+      method: GET
+    update:
+      path: /provider/alert_policy/{id}
+      method: PATCH
+    delete:
+      path: /provider/alert_policy/{id}
+      method: DELETE
+  alert_channel:
+    create:
+      path: /provider/alert_channel
+      method: POST
+    read:
+      path: /provider/alert_channel/{id}
+      method: GET
+    update:
+      path: /provider/alert_channel/{id}
+      method: PATCH
+    delete:
+      path: /provider/alert_channel/{id}
+      method: DELETE
+  alert_contact:
+    create:
+      path: /provider/alert_contact
+      method: POST
+    read:
+      path: /provider/alert_contact/{id}
+      method: GET
+    update:
+      path: /provider/alert_contact/{id}
+      method: PATCH
+    delete:
+      path: /provider/alert_contact/{id}
+      method: DELETE
+  on_call_schedule:
+    create:
+      path: /provider/on_call_schedule
+      method: POST
+    read:
+      path: /provider/on_call_schedule/{id}
+      method: GET
+    update:
+      path: /provider/on_call_schedule/{id}
+      method: PATCH
+    delete:
+      path: /provider/on_call_schedule/{id}
+      method: DELETE
+  status_page:
+    create:
+      path: /provider/status_page
+      method: POST
+    read:
+      path: /provider/status_page/{id}
+      method: GET
+    update:
+      path: /provider/status_page/{id}
+      method: PATCH
+    delete:
+      path: /provider/status_page/{id}
+      method: DELETE
+  repeating_maintenance:
+    create:
+      path: /provider/repeating_maintenance
+      method: POST
+    read:
+      path: /provider/repeating_maintenance/{id}
+      method: GET
+    update:
+      path: /provider/repeating_maintenance/{id}
+      method: PATCH
+    delete:
+      path: /provider/repeating_maintenance/{id}
+      method: DELETE
+  private_location:
+    create:
+      path: /provider/private_location
+      method: POST
+    read:
+      path: /provider/private_location/{id}
+      method: GET
+    update:
+      path: /provider/private_location/{id}
+      method: PATCH
+    delete:
+      path: /provider/private_location/{id}
+      method: DELETE
